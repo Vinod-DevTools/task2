@@ -1,0 +1,20 @@
+name: demo action
+on: 
+  push:
+    branches:
+      -main
+  pull_request:
+    branches:
+      -main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        - name: hello
+          run: echo "Build"
+  test:
+    runs-on: uduntu-latest
+    needs: build
+    steps: 
+      - name: Test
+        run: echo "TEST"
