@@ -1,26 +1,18 @@
-name: demo action
+name: Jira Login Only
 
-on: 
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  fork:
-    branches:
-      - main
+on:
+  workflow_dispatch:
 
 jobs:
-  build:
+  login-to-jira:
     runs-on: ubuntu-latest
-    steps:
-      - name: Build
-        run: echo "Build"
 
-  test:
-    runs-on: ubuntu-latest  # Fixed typo (was 'uduntu-latest')
-    needs: build
-    steps: 
-      - name: Test
-        run: echo "TEST"
+    steps:
+      - name: Checkout (optional if you need repo code)
+        uses: actions/checkout@v4
+
+      - name: Log in to Jira
+        run: |
+          echo "Logging in to Jira..."
+          curl -u "${{ secrets.JIRA_EMAIL }}:${{ secrets.JIRA_API_TOKEN }}" \
+            -X GET "${{ secrets.JIRA_URL }}/rest/api/3/myself"
